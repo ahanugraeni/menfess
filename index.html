@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>✨ Jeongwoo Birthday Massage ✨</title>
+  
+    <link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&family=Fredoka:wght@400;600&family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <!-- FontAwesome for Icons -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        aesthetic: ['"Dancing Script"', 'cursive'],
+                        cute: ['Fredoka', 'sans-serif'],
+                        sans: ['Inter', 'sans-serif'],
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+         /* Background utama halaman */
+            background: linear-gradient(rgba(233, 77, 142, 0.25), rgba(111, 103, 214, 0.925)), url('https://www.magnific.com/free-photos-vectors/y2k-wallpaper/14') no-repeat center center fixed;
+            background-size: cover;
+            font-family: 'Inter', sans-serif;
+            min-height: 100vh;
+        }
+        
+        /* Motif Kotak-Kotak (Checkered Pattern) dengan Dominan Biru */
+        .checkered-box {
+            background-color: #93c5fd; /* Biru soft sebagai base */
+            background-image: 
+                linear-gradient(45deg, #60a5fa 25%, transparent 25%), 
+                linear-gradient(-45deg, #60a5fa 25%, transparent 25%), 
+                linear-gradient(45deg, transparent 75%, #60a5fa 75%), 
+                linear-gradient(-45deg, transparent 75%, #60a5fa 75%);
+            background-size: 32px 32px;
+            background-position: 0 0, 0 16px, 16px -16px, -16px 0px;
+            border: 6px solid #bfdbfe;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+        }
+
+        /* Balon chat ala iMessage */
+        .bubble-incoming {
+            background-color: #ffffff;
+            color: #1e3a8a;
+            border-radius: 20px 20px 20px 5px;
+            border: 2px solid #93c5fd;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: rgba(255,255,255,0.3);
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #1d4ed8;
+            border-radius: 4px;
+        }
+    </style>
+</head>
+<body class="pb-20 px-4 pt-12">
+
+    <!-- Header / Judul -->
+    <header class="max-w-xl mx-auto mb-8 text-center">
+        <h1 class="text-5xl md:text-6xl font-aesthetic text-white drop-shadow-[2px_3px_6px_rgba(0,0,0,0.7)] mb-4 tracking-wide">
+            ✨ Jeongwoo Birthday Massage ✨
+        </h1>
+        
+        <!-- Tombol Kirim Pesan -->
+        <button onclick="toggleModal(true)" class="bg-blue-600 hover:bg-blue-700 text-white font-cute font-bold px-7 py-3 rounded-full shadow-lg border-2 border-white flex items-center justify-center gap-2 mx-auto transition active:scale-95">
+            <i class="fa-solid fa-pen-to-square"></i>
+            <span>+ Tulis Pesan Baru</span>
+        </button>
+    </header>
+
+    <!-- Main Container dengan Motif Kotak-Kotak Biru Jelas -->
+    <main class="max-w-xl mx-auto checkered-box rounded-3xl p-5 md:p-7 relative">
+        
+        <!-- Hiasan sticker kecil di pojok -->
+        <div class="absolute -top-3 -right-2 bg-blue-600 text-white border-2 border-white px-3 py-1 rounded-full text-xs font-cute shadow-md rotate-3 font-bold">
+            🧺 Jeongwoo Birthday Massage
+        </div>
+
+        <!-- Feed List / Daftar Pesan iMessage Style -->
+        <div id="posts-container" class="space-y-6">
+          
+        </div>
+
+        <!-- Empty State -->
+        <div id="empty-state" class="hidden text-center py-12 bg-white/95 rounded-2xl border-2 border-blue-300">
+            <i class="fa-regular fa-comment-dots text-5xl text-blue-500 mb-2"></i>
+            <h3 class="font-cute text-lg text-blue-900 font-bold">Belum ada percakapan!</h3>
+            <p class="font-cute text-xs text-blue-700">Yuk mulai kirim pesan pertamamu hari ini~</p>
+        </div>
+    </main>
+
+    <!-- Modal Form Buat Pesan -->
+    <div id="post-modal" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4 hidden">
+        <div class="bg-white w-full max-w-md rounded-3xl p-6 shadow-2xl border-4 border-blue-400 relative">
+            
+            <!-- Close Button -->
+            <button onclick="toggleModal(false)" class="absolute top-4 right-4 text-gray-400 hover:text-blue-700 text-xl font-bold">
+                <i class="fa-solid fa-circle-xmark"></i>
+            </button>
+
+            <div class="text-center mb-4">
+                <h2 class="text-2xl font-aesthetic text-blue-800">Kirim Pesan Baru</h2>
+                <p class="text-xs font-cute text-gray-500">Pesanmu bakal tampil di papan!</p>
+            </div>
+
+            <form id="menfess-form" onsubmit="handlePostSubmit(event)" class="space-y-3 font-cute text-sm">
+                <div class="grid grid-cols-2 gap-2">
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1">To (Penerima)</label>
+                        <input type="text" id="post-to" required placeholder="" class="w-full px-3 py-2 rounded-xl border border-gray-300 focus:outline-none focus:border-blue-500 bg-gray-50 text-xs">
+                    </div>
+                    <div>
+                        <label class="block text-xs font-bold text-gray-700 mb-1">From (Pengirim)</label>
+                        <input type="text" id="post-author" placeholder="" class="w-full px-3 py-2 rounded-xl border border-gray-300 focus:outline-none focus:border-blue-500 bg-gray-50 text-xs">
+                    </div>
+                </div>
+
+                <div>
+                    <label class="block text-xs font-bold text-gray-700 mb-1">Pesanmu buat doi?</label>
+                    <textarea id="post-content" rows="4" required placeholder="Tulis pesan atau apapun di sini!!!!!" class="w-full px-3 py-2 rounded-xl border border-gray-300 focus:outline-none focus:border-blue-500 bg-gray-50 text-xs resize-none"></textarea>
+                </div>
+
+                <button type="submit" class="w-full py-2.5 bg-blue-600 hover:bg-blue-700 text-white font-bold rounded-xl shadow transition active:scale-95 text-xs">
+                    Kirim Pesan 💌
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Footer -->
+    <footer class="text-center mt-8 text-xs font-cute text-white drop-shadow">
+        <p>✨ Jeongwoo Birthday Massage ✨</p>
+    </footer>
+
+    <!-- JavaScript Logic -->
+    <script>
+        let posts = JSON.parse(localStorage.getItem('picnic_blue_dark_posts')) || [
+            {
+                id: 1,
+                to: 'woo',
+                author: 'hymywyjw',
+                content: 'Apa doa buat orang jjeongjjeongii kali ini? hmmm bless u, woo! manusia ga punya hp ceunah. as uwoos gapapa banget ga maen hp kok woo, enjoy boy! wkwkwkw. semoga makin pancak-pancak eakk!! be creative never ending uhuy yang bikin makin ngefans🎧✨',
+                timestamp: '00:00',
+                likes: 28092026,
+                comments: [
+                    { author: 'alwaysjw', text: ' 💙🧺' }
+                ]
+            }
+        ];
+
+        window.addEventListener('DOMContentLoaded', () => {
+            renderPosts();
+        });
+
+        function toggleModal(show) {
+            const modal = document.getElementById('post-modal');
+            if (show) {
+                modal.classList.remove('hidden');
+            } else {
+                modal.classList.add('hidden');
+                document.getElementById('menfess-form').reset();
+            }
+        }
+
+        function renderPosts() {
+            const container = document.getElementById('posts-container');
+            const emptyState = document.getElementById('empty-state');
+            container.innerHTML = '';
+
+            if (posts.length === 0) {
+                emptyState.classList.remove('hidden');
+                return;
+            } else {
+                emptyState.classList.add('hidden');
+            }
+
+            posts.forEach(post => {
+                let commentsHTML = '';
+                if (post.comments && post.comments.length > 0) {
+                    commentsHTML = post.comments.map(c => `
+                        <div class="bg-blue-50 p-2 rounded-2xl text-xs font-cute mt-1 ml-6 border border-blue-200">
+                            <span class="font-bold text-blue-900">@${escapeHTML(c.author)}:</span> 
+                            <span class="text-blue-950">${escapeHTML(c.text)}</span>
+                        </div>
+                    `).join('');
+                }
+
+                const card = document.createElement('div');
+                card.className = 'bg-white/95 p-4 rounded-2xl shadow-md border-2 border-blue-300 relative';
+                card.innerHTML = `
+                    <!-- Header To & From ala iMessage Contact -->
+                    <div class="flex items-center justify-between border-b border-gray-100 pb-2 mb-3">
+                        <div class="flex items-center gap-2">
+                            <div class="w-7 h-7 bg-blue-600 text-white rounded-full flex items-center justify-center font-bold text-xs shadow-sm">
+                                💌
+                            </div>
+                            <div>
+                                <p class="text-xs font-bold text-gray-800">To: <span class="text-blue-600">${escapeHTML(post.to)}</span></p>
+                                <p class="text-[10px] text-gray-500">From: ${escapeHTML(post.author || 'Anonim')}</p>
+                            </div>
+                        </div>
+                        <span class="text-[10px] text-gray-400 font-mono">${post.timestamp}</span>
+                    </div>
+
+                    <!-- Bubble Chat Utama -->
+                    <div class="mb-3">
+                        <div class="bubble-incoming p-3.5 text-sm font-cute inline-block max-w-full shadow-sm">
+                            ${escapeHTML(post.content)}
+                        </div>
+                    </div>
+
+                    <!-- Komentar List -->
+                    <div class="space-y-1 mb-3">
+                        ${commentsHTML}
+                    </div>
+
+                    <!-- Input Balas / Komentar -->
+                    <div class="flex gap-2 items-center mt-2 pt-2 border-t border-gray-100">
+                        <input type="text" id="comment-input-${post.id}" placeholder="Ketik balasan..." class="w-full px-3 py-1.5 text-xs font-cute rounded-full border border-gray-300 focus:outline-none focus:border-blue-500 bg-gray-50">
+                        <button onclick="addComment(${post.id})" class="px-3 py-1.5 bg-blue-600 hover:bg-blue-700 text-white font-cute text-xs font-bold rounded-full transition">Kirim</button>
+                    </div>
+
+                    <!-- Like & ID info -->
+                    <div class="flex items-center justify-between mt-3 pt-2 text-[11px] text-gray-500">
+                        <button onclick="likePost(${post.id})" class="flex items-center gap-1 text-pink-500 hover:text-pink-600 font-bold bg-pink-50 px-2.5 py-1 rounded-full transition active:scale-95 shadow-sm">
+                            <i class="fa-solid fa-heart"></i>
+                            <span>${post.likes} Suka</span>
+                        </button>
+                        <span class="text-gray-400 font-mono">ID: #${post.id}</span>
+                    </div>
+                `;
+                container.appendChild(card);
+            });
+        }
+
+        function handlePostSubmit(e) {
+            e.preventDefault();
+            const to = document.getElementById('post-to').value.trim();
+            const author = document.getElementById('post-author').value.trim();
+            const content = document.getElementById('post-content').value.trim();
+
+            if (!content || !to) return;
+
+            const now = new Date();
+            const timeString = now.getHours().toString().padStart(2, '0') + ':' + now.getMinutes().toString().padStart(2, '0');
+
+            const newPost = {
+                id: Date.now(),
+                to: to,
+                author: author !== '' ? author : 'Anonim',
+                content: content,
+                timestamp: timeString,
+                likes: 0,
+                comments: []
+            };
+
+            posts.unshift(newPost);
+            saveAndRefresh();
+            toggleModal(false);
+        }
+
+        function likePost(id) {
+            const post = posts.find(p => p.id === id);
+            if (post) {
+                post.likes += 1;
+                saveAndRefresh();
+            }
+        }
+
+        function addComment(id) {
+            const input = document.getElementById(`comment-input-${id}`);
+            const text = input.value.trim();
+            if (!text) return;
+
+            const post = posts.find(p => p.id === id);
+            if (post) {
+                post.comments.push({
+                    author: 'Kamu',
+                    text: text
+                });
+                saveAndRefresh();
+            }
+        }
+
+        function saveAndRefresh() {
+            localStorage.setItem('picnic_blue_dark_posts', JSON.stringify(posts));
+            renderPosts();
+        }
+
+        function escapeHTML(str) {
+            return str.replace(/[&<>'"]/g, 
+                tag => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', "'": '&#39;', '"': '&quot;' }[tag] || tag)
+            );
+        }
+    </script>
+</body>
+</html>
